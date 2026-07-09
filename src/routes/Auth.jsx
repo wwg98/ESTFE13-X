@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Typography, TextField, Button } from "@mui/material";
+import { Box, Typography, TextField, Button, Divider } from "@mui/material";
 import { authService } from "../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
@@ -12,7 +12,6 @@ function Auth() {
   const auth = authService;
 
   const handleChange = e => {
-    e.prventDefault();
     const { name, value } = e.target;
     setForm(prev => ({
       ...prev,
@@ -20,7 +19,8 @@ function Auth() {
     }));
   };
 
-  const onSubmit = () => {
+  const onSubmit = e => {
+    e.preventDefault();
     if (newAccount) {
       createUserWithEmailAndPassword(auth, form.email, form.password)
         .then(userCredential => {
@@ -65,6 +65,16 @@ function Auth() {
         />
         <Button sx={{ mt: 2 }} type="submit" variant="contained">
           {newAccount ? "회원가입" : "로그인"}
+        </Button>
+        <Divider sx={{ my: 3 }} />
+        <Button
+          sx={{ mt: 2 }}
+          type="button"
+          variant="contained"
+          onClick={() => {
+            setNewAccount(prev => !prev);
+          }}>
+          {newAccount ? "로그인으로 전환" : "회원가입으로 전환"}
         </Button>
       </Box>
     </>
