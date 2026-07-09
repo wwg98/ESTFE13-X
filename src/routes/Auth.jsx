@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Box, Typography, TextField, Button } from "@mui/material";
+import { authService } from "../firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 function Auth() {
   const [newAccount, setNewAccount] = useState(true);
@@ -7,8 +9,10 @@ function Auth() {
     email: "",
     password: "",
   });
+  const auth = authService;
 
   const handleChange = e => {
+    e.prventDefault();
     const { name, value } = e.target;
     setForm(prev => ({
       ...prev,
@@ -16,12 +20,30 @@ function Auth() {
     }));
   };
 
+  const onSubmit = () => {
+    if (newAccount) {
+      createUserWithEmailAndPassword(auth, form.email, form.password)
+        .then(userCredential => {
+          // Signed up
+          const user = userCredential.user;
+          // ...
+        })
+        .catch(error => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(errorCode, errorMessage);
+          // ..
+        });
+    } else {
+    }
+  };
+
   return (
     <>
       <Typography variant="h2" component="h2">
-        Login Form
+        {newAccount ? "회원가입 폼" : "로그인 폼"}
       </Typography>
-      <Box component={"form"} sx={{ mt: 2 }}>
+      <Box component={"form"} sx={{ mt: 2 }} onSubmit={onSubmit}>
         <TextField
           fullWidth
           label="Email address"
@@ -42,7 +64,7 @@ function Auth() {
           onChange={handleChange}
         />
         <Button sx={{ mt: 2 }} type="submit" variant="contained">
-          Login
+          {newAccount ? "회원가입" : "로그인"}
         </Button>
       </Box>
     </>
