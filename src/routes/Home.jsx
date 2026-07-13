@@ -24,7 +24,7 @@ import { db } from "../firebase";
 import { useEffect, useState } from "react";
 import Comment from "../components/Comment";
 
-function Home() {
+function Home({ userId }) {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   /*
@@ -56,6 +56,7 @@ function Home() {
         // comment: comment,
         comment,
         date: serverTimestamp(),
+        uid: userId,
       });
       setComment("");
       // getComments();
@@ -89,7 +90,7 @@ function Home() {
       <Divider sx={{ my: 3 }} />
       <List sx={{ width: "100%" }}>
         {comments.map(item => (
-          <Comment key={item.id} item={item} />
+          <Comment key={item.id} item={item} isShown={userId === item.uid} />
         ))}
       </List>
     </>
