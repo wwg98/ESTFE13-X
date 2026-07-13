@@ -1,16 +1,15 @@
 import { signOut } from "firebase/auth";
 import { authService } from "../firebase";
-import { Button } from "@mui/material";
+import { Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router";
 
 function Profile() {
   const auth = authService;
   const navigate = useNavigate();
 
-  const OnLogOut = () => {
+  const onLogout = () => {
     signOut(auth)
       .then(() => {
-        // Sign-out successful.
         navigate("/");
       })
       .catch(error => {
@@ -19,8 +18,8 @@ function Profile() {
   };
   return (
     <>
-      <h1>Profile</h1>
-      <Button sx={{ mt: 2 }} type="button" variant="contained" onClick={OnLogOut}>
+      <h2>Profile</h2>
+      <Button sx={{ mt: 2 }} type="button" variant="contained" onClick={onLogout}>
         로그아웃
       </Button>
     </>

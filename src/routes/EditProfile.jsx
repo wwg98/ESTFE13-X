@@ -1,7 +1,7 @@
 function EditProfile() {
   return (
     <>
-      <h1>EditProfile</h1>
+      <h2>EditProfile</h2>
     </>
   );
 }

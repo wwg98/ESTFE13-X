@@ -1,9 +1,9 @@
+import "./App.css";
 import Router from "./Router";
 import { useState } from "react";
 import { authService } from "../firebase";
 import { Container } from "@mui/material";
 import { onAuthStateChanged } from "firebase/auth";
-import "./App.css";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -17,7 +17,6 @@ function App() {
       setIsLoggedIn(false);
     }
   });
-
   return (
     <>
       <Container>

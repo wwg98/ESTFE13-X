@@ -15,7 +15,7 @@ function Auth() {
     password: "",
   });
   const [error, setError] = useState("");
-  const [errorOPen, setErrorOPen] = useState(false);
+  const [errorOpen, setErrorOpen] = useState(false);
 
   const emailRef = useRef(null);
 
@@ -48,8 +48,8 @@ function Auth() {
             errorMessage.includes("email-already-in-use")
               ? "이메일이 이미 사용중입니다."
               : errorMessage,
-          ); //에러 메세지 생성
-          setErrorOPen(true);
+          ); //에러메시지 생성
+          setErrorOpen(true);
           setForm({ email: "", password: "" });
           emailRef.current.focus();
         });
@@ -65,14 +65,13 @@ function Auth() {
           const errorCode = error.code;
           const errorMessage = error.message;
           console.log(errorCode, errorMessage);
-          setError(errorMessage);
-          setErrorOPen(true);
+          setError(errorMessage); //에러 메시지 생성
+          setErrorOpen(true);
           setForm({ email: "", password: "" });
           emailRef.current.focus();
         });
     }
   };
-
   const onGoogleSignIn = () => {
     signInWithPopup(auth, provider)
       .then(result => {
@@ -86,7 +85,6 @@ function Auth() {
         const email = error.customData.email;
         const credential = GoogleAuthProvider.credentialFromError(error);
         console.log(errorCode, errorMessage, email, credential);
-        setError(errorMessage);
       });
   };
   return (
@@ -120,11 +118,11 @@ function Auth() {
         </Button>
 
         <Snackbar
-          open={errorOPen}
+          open={errorOpen}
           autoHideDuration={3000}
           message={error}
           onClose={() => {
-            setErrorOPen(false);
+            setErrorOpen(false);
           }}
         />
 
@@ -141,7 +139,8 @@ function Auth() {
           variant="contained"
           onClick={() => {
             setNewAccount(prev => !prev);
-          }}>
+          }}
+        >
           {newAccount ? "로그인으로 전환" : "회원가입으로 전환"}
         </Button>
       </Box>
